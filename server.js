@@ -16,6 +16,7 @@ const __dirname = dirname(__filename);
 const app = express();
 const { Pool } = pg;
 
+
 // 2. Database Connection
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
