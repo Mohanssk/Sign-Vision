@@ -16,6 +16,11 @@ const __dirname = dirname(__filename);
 const app = express();
 const { Pool } = pg;
 
+// --- CRITICAL FIX FOR VERCEL ---
+// This tells Express to trust the Vercel Load Balancer.
+// Without this, the 'secure' cookie will NOT be set, and you will get a login loop.
+app.set('trust proxy', 1);
+// -------------------------------
 
 // 2. Database Connection
 const pool = new Pool({
