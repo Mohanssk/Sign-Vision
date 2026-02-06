@@ -27,10 +27,13 @@ const pool = new Pool({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true })); // Parse form data
 app.use(express.json());
-app.set('view engine', 'ejs');
 
-// 4. Session Configuration (CORRECTED)
-// We only initialize this ONCE using the Postgres Store
+// --- VIEW ENGINE SETUP (FIXED) ---
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views')); // Explicitly set views path for Vercel
+// ---------------------------------
+
+// 4. Session Configuration
 const PgSession = connectPgSimple(session);
 
 app.use(session({
@@ -137,7 +140,7 @@ app.get('/dashboard', isAuthenticated, (req, res) => {
 });
 
 // Start Server
-const PORT = process.env.PORT || 3000; // Vercel prefers port 3000 default
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
